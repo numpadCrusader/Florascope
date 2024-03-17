@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Home"
+    <item android:title="@string/home_screen_title"
         android:icon="@drawable/home_svgrepo_com"
-        android:id="@+id/mainPageFragment"
+        android:id="@+id/homeFragment"
         />
-    <item android:title="Gallery"
+    <item android:title="@string/gallery_screen_title"
         android:icon="@drawable/album_svgrepo_com"
-        android:id="@+id/secondPageFragment"
+        android:id="@+id/galleryFragment"
         />
 </menu>

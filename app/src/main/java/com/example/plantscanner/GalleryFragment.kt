@@ -1,28 +1,28 @@
 package com.example.plantscanner
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.example.plantscanner.databinding.FragmentMainPageBinding
+import com.example.plantscanner.databinding.FragmentGalleryBinding
 
-class MainPageFragment : Fragment() {
-    private lateinit var binding: FragmentMainPageBinding
+class GalleryFragment : Fragment() {
+    private lateinit var binding: FragmentGalleryBinding
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentMainPageBinding.inflate(inflater)
+    ): View {
+        binding = FragmentGalleryBinding.inflate(inflater)
 
         binding.settingsFAB.setOnClickListener {
-            view?.findNavController()?.navigate(R.id.action_mainPageFragment_to_settingsFragment)
+            view?.findNavController()?.navigate(R.id.action_galleryFragment_to_settingsFragment)
         }
 
         binding.cameraFAB.setOnClickListener {
-            view?.findNavController()?.navigate(R.id.action_mainPageFragment_to_cameraFragment)
+            view?.findNavController()?.navigate(R.id.action_galleryFragment_to_cameraFragment)
         }
 
         return binding.root

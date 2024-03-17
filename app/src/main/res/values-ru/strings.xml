@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PlantScanner</string>
+    <string name="camera_placeholder">Место для экрана Камеры</string>
+    <string name="gallery_placeholder">Место для экрана Галерея</string>
+    <string name="history_placeholder">Место для Главного экрана</string>
+
+    <string name="notifications">Уведомления</string>
+    <string name="dark_mode">Тёмная тема</string>
+    <string name="language">Язык</string>
+    <string name="send_feedback">Обратная связь</string>
+
+    <string name="home_screen_title">Дом</string>
+    <string name="gallery_screen_title">Галерея</string>
+    <string name="camera_screen_title">Камера</string>
+    <string name="settings_screen_title">Настройки</string>
+
+    <string name="send_button_text">Отправить</string>
+    <string name="email">Почта</string>
+    <string name="feedback">Отзыв</string>
+</resources>

@@ -1,16 +1,29 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Tool bar style -->
+    <style name="ToolBarStyle" parent="Widget.MaterialComponents.Toolbar.Primary">
+        <item name="android:background">@drawable/actionbar_style</item> <!-- Set background color of the action bar to white -->
+        <item name="titleTextColor">@color/black</item> <!-- Set text color of the action bar title to black -->
+        <item name="titleMarginStart">0dp</item>
+        <item name="contentInsetStart">0dp</item>
+        <item name="contentInsetStartWithNavigation">0dp</item>
+        <item name="android:elevation">16dp</item>
+    </style>
+
     <!-- Base application theme. -->
     <style name="Theme.PlantScanner" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_700</item>
         <item name="colorOnSecondary">@color/black</item>
+
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="toolbarStyle">@style/ToolBarStyle</item>
+        <item name="homeAsUpIndicator">@drawable/arrow_left_svgrepo_com</item>
     </style>
 </resources>
