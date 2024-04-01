@@ -7,11 +7,11 @@
     <color name="light_gray">#EFF0F6</color>
 
     <color name="main_green">#00E369</color>
-    <color name="screen_background">#FFFFFF</color>
-    <color name="main_text">#000000</color>
+    <color name="screen_background">#303030</color>
+    <color name="main_text">#FFFFFF</color>
 
-    <color name="actionbar_background">#FFFFFF</color>
+    <color name="actionbar_background">#212121</color>
     <color name="bottom_menu_icons_and_text">#9DB2CE</color>
 
-    <color name="separator">#EFF0F6</color>
+    <color name="separator">#363636</color>
 </resources>

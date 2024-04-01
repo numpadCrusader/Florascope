@@ -26,21 +26,23 @@
             android:layout_marginBottom="5dp"
             android:gravity="center_vertical"
             android:text="@string/notifications"
-            android:textColor="@color/black"
+            android:textColor="@color/main_text"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchCompat"
+            android:id="@+id/notificationSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:thumb="@drawable/thumb"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:track="@drawable/track" />
+            app:trackTint="@drawable/switch_track_selector"
+            app:thumbTint="@drawable/switch_thumb_selector"/>
+<!--            android:thumb="@drawable/thumb"-->
+<!--            app:track="@drawable/track"-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -52,7 +54,7 @@
         android:layout_width="match_parent"
         android:layout_marginTop="8dp"
         android:layout_height="1dp"
-        android:background="@color/gray"
+        android:background="@color/separator"
         app:layout_constraintTop_toBottomOf="@id/notificationBlock"/>
 
 <!--    Dark Mode Block-->
@@ -75,21 +77,24 @@
             android:layout_marginBottom="5dp"
             android:gravity="center_vertical"
             android:text="@string/dark_mode"
-            android:textColor="@color/black"
+            android:textColor="@color/main_text"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/switchCompat2"
+            android:id="@+id/appearanceSwitch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:thumb="@drawable/thumb"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:track="@drawable/track" />
+            app:layout_constraintVertical_bias="0.0"
+            app:trackTint="@drawable/switch_track_selector"
+            app:thumbTint="@drawable/switch_thumb_selector"/>
+        <!--            android:thumb="@drawable/thumb"-->
+        <!--            app:track="@drawable/track"-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -101,7 +106,7 @@
         android:layout_width="match_parent"
         android:layout_marginTop="8dp"
         android:layout_height="1dp"
-        android:background="@color/gray"
+        android:background="@color/separator"
         app:layout_constraintTop_toBottomOf="@id/themeBlock"/>
 
 <!--    Language Block-->
@@ -125,7 +130,7 @@
             android:layout_marginBottom="5dp"
             android:gravity="center_vertical"
             android:text="@string/language"
-            android:textColor="@color/black"
+            android:textColor="@color/main_text"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -151,7 +156,7 @@
         android:layout_width="match_parent"
         android:layout_marginTop="8dp"
         android:layout_height="1dp"
-        android:background="@color/gray"
+        android:background="@color/separator"
         app:layout_constraintTop_toBottomOf="@id/languageBlock"/>
 
     <!--    Feedback Block-->
@@ -175,7 +180,7 @@
             android:layout_marginBottom="5dp"
             android:gravity="center_vertical"
             android:text="@string/send_feedback"
-            android:textColor="@color/black"
+            android:textColor="@color/main_text"
             android:textSize="18sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -201,7 +206,7 @@
         android:layout_width="match_parent"
         android:layout_marginTop="8dp"
         android:layout_height="1dp"
-        android:background="@color/gray"
+        android:background="@color/separator"
         app:layout_constraintTop_toBottomOf="@id/feedbackBlock"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

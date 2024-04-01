@@ -1,9 +1,12 @@
 package com.example.plantscanner
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
@@ -13,6 +16,7 @@ import com.example.plantscanner.databinding.ActivityMainBinding
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,6 +32,12 @@ class MainActivity : AppCompatActivity() {
             updateBottomNavVisibility(destination)
             updateActionBarTitle(destination)
         }
+
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("Mode", Context.MODE_PRIVATE)
+
+        // Apply theme based on saved preference
+        applyTheme()
     }
 
     private fun updateBottomNavVisibility(destination: NavDestination) {
@@ -49,7 +59,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun updateActionBarTitle(destination: NavDestination){
+    private fun updateActionBarTitle(destination: NavDestination) {
         val actionBar = supportActionBar
 
         when (destination.id) {
@@ -57,18 +67,22 @@ class MainActivity : AppCompatActivity() {
                 actionBar?.title = getString(R.string.settings_screen_title)
                 actionBar?.setDisplayHomeAsUpEnabled(true)
             }
+
             R.id.cameraFragment -> {
                 actionBar?.title = getString(R.string.camera_screen_title)
                 actionBar?.setDisplayHomeAsUpEnabled(true)
             }
+
             R.id.homeFragment -> {
                 actionBar?.title = getString(R.string.home_screen_title)
                 actionBar?.setDisplayHomeAsUpEnabled(false)
             }
+
             R.id.galleryFragment -> {
                 actionBar?.title = getString(R.string.gallery_screen_title)
                 actionBar?.setDisplayHomeAsUpEnabled(false)
             }
+
             R.id.feedbackFragment -> {
                 actionBar?.title = getString(R.string.send_feedback)
                 actionBar?.setDisplayHomeAsUpEnabled(true)
@@ -84,5 +98,14 @@ class MainActivity : AppCompatActivity() {
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun applyTheme() {
+        val nightMode = sharedPreferences.getBoolean("night", false)
+        if (nightMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
+        }
     }
 }
