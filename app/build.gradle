@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.plantscanner'
+    namespace 'com.example.florascope'
     compileSdk 34
 
     defaultConfig {
-        applicationId "com.example.plantscanner"
+        applicationId "com.example.florascope"
         minSdk 24
         targetSdk 34
         versionCode 1

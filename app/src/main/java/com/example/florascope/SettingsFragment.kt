@@ -1,4 +1,4 @@
-package com.example.plantscanner
+package com.example.florascope
 
 import android.Manifest
 import android.app.NotificationChannel
@@ -19,7 +19,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.example.plantscanner.databinding.FragmentSettingsBinding
+import com.example.florascope.databinding.FragmentSettingsBinding
 
 class SettingsFragment : Fragment() {
     private lateinit var binding: FragmentSettingsBinding

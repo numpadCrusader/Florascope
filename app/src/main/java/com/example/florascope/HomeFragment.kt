@@ -1,4 +1,4 @@
-package com.example.plantscanner
+package com.example.florascope
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
-import com.example.plantscanner.databinding.FragmentHomeBinding
+import com.example.florascope.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding

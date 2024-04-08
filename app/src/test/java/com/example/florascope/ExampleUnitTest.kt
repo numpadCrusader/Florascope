@@ -1,4 +1,4 @@
-package com.example.plantscanner
+package com.example.florascope
 
 import org.junit.Test
 

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">PlantScanner</string>
+    <string name="app_name">Florascope</string>
     <string name="camera_placeholder">Место для экрана Камеры</string>
     <string name="gallery_placeholder">Место для экрана Галерея</string>
 

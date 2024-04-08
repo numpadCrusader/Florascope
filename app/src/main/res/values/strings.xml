@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PlantScanner</string>
+    <string name="app_name">Florascope</string>
     <string name="camera_placeholder">Camera Placeholder</string>
     <string name="gallery_placeholder">Gallery Placeholder</string>
 
