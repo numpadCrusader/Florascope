@@ -29,6 +29,8 @@ class CameraFragment : Fragment() {
     private lateinit var interpreter: Interpreter
     private var isModelLoaded = false
     private lateinit var currentModelFileName: String
+    private var numOfClasses: Int = 0
+    private lateinit var nameOfClasses: Array<String>
 
     companion object {
         private const val TAG = "CameraFragment"
@@ -89,33 +91,82 @@ class CameraFragment : Fragment() {
         binding = FragmentCameraBinding.inflate(inflater)
 
         binding.b1.setOnClickListener {
+            numOfClasses = 4
+            nameOfClasses = Array(4) { "" }
+            nameOfClasses[0] = "Apple Scab"
+            nameOfClasses[1] = "Apple Black rot"
+            nameOfClasses[2] = "Apple Cedar rust"
+            nameOfClasses[3] = "Apple Healthy"
+
             loadModel("apple_model.tflite")
             launchCamera()
         }
 
         binding.b2.setOnClickListener {
-//            loadModel("orange_model.tflite")
-//            launchCamera()
+            numOfClasses = 7
+            nameOfClasses = Array(7) { "" }
+            nameOfClasses[0] = "Banana Healthy"
+            nameOfClasses[1] = "Banana Panama Disease"
+            nameOfClasses[2] = "Banana Black Sigatoka Disease"
+            nameOfClasses[3] = "Banana Bract Mosaic Virus Disease"
+            nameOfClasses[4] = "Banana Insect Pest Disease"
+            nameOfClasses[5] = "Banana Moko Disease"
+            nameOfClasses[6] = "Banana Yellow Sigatoka Disease "
+
+            loadModel("banana_model.tflite")
+            launchCamera()
         }
 
         binding.b3.setOnClickListener {
-//            loadModel("banana_model.tflite")
-//            launchCamera()
+            numOfClasses = 1
+            nameOfClasses = Array(2) { "" }
+            nameOfClasses[0] = "Cherry Powdery Mildew"
+            nameOfClasses[1] = "Cherry Healthy"
+
+            loadModel("cherry_model.tflite")
+            launchCamera()
         }
 
         binding.b4.setOnClickListener {
-//            loadModel("grape_model.tflite")
-//            launchCamera()
+            this.numOfClasses = 4
+            nameOfClasses = Array(4) { "" }
+            nameOfClasses[0] = "Corn Cercospora leaf spot & Gray leaf spot"
+            nameOfClasses[1] = "Corn Common Rust"
+            nameOfClasses[2] = "Corn Nothern Leaf Blight"
+            nameOfClasses[3] = "Corn Healthy"
+
+            loadModel("corn_model.tflite")
+            launchCamera()
         }
 
         binding.b5.setOnClickListener {
-//            loadModel("mango_model.tflite")
-//            launchCamera()
+            this.numOfClasses = 4
+            nameOfClasses = Array(4) { "" }
+            nameOfClasses[0] = "Grape Black Rot"
+            nameOfClasses[1] = "Grape Esca (Black Measles)"
+            nameOfClasses[2] = "Grape Leaf Blight (Isariopsis Leaf Spot)"
+            nameOfClasses[3] = "Grape Healthy"
+
+            loadModel("grape_model.tflite")
+            launchCamera()
         }
 
         binding.b6.setOnClickListener {
-//            loadModel("pineapple_model.tflite")
-//            launchCamera()
+            this.numOfClasses = 10
+            nameOfClasses = Array(10) { "" }
+            nameOfClasses[0] = "Tomato Bacterial Spot"
+            nameOfClasses[1] = "Tomato Early Blight"
+            nameOfClasses[2] = "Tomato Late Blight"
+            nameOfClasses[3] = "Tomato Leaf Mold"
+            nameOfClasses[4] = "Tomato Septoria Leaf Spot"
+            nameOfClasses[5] = "Tomato Spider mites || Two spotted spider mite"
+            nameOfClasses[6] = "Tomato Target Spot"
+            nameOfClasses[7] = "Tomato Yellow Leaf Curl Virus"
+            nameOfClasses[8] = "Tomato Mosaic Virus"
+            nameOfClasses[9] = "Tomato Healthy"
+
+            loadModel("tomatoes_model.tflite")
+            launchCamera()
         }
 
         return binding.root
@@ -148,6 +199,15 @@ class CameraFragment : Fragment() {
     }
 
     private fun getPredictedClass(output: Array<FloatArray>): Int {
+        // If plant's labels are binary
+        if (output[0].size == 1) {
+            return if (output[0][0] > 0.5) {
+                1
+            } else
+                0
+        }
+
+        // If plant's labels are multilabel
         var maxIdx = 0
         var maxVal = output[0][0]
         for (i in 1 until output[0].size) {
@@ -184,12 +244,12 @@ class CameraFragment : Fragment() {
             Log.d(TAG, "Bitmap converted to ByteBuffer")
 
             // Run inference
-            val output = Array(1) { FloatArray(4) }
+            val output = Array(1) { FloatArray(this.numOfClasses) }
             interpreter.run(byteBuffer, output)
             Log.d(TAG, "Model inference completed")
 
             // Process the output to get the predicted class
-            val predictedClass = getPredictedClass(output)
+            val predictedClass = nameOfClasses[getPredictedClass(output)]
             Log.d(TAG, "Predicted class: $predictedClass")
 
         } catch (e: Exception) {
