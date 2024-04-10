@@ -2,7 +2,6 @@ package com.example.florascope
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.content.res.AssetManager
 import android.graphics.Bitmap
 import android.os.Bundle
 import android.util.Log
@@ -15,12 +14,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.florascope.databinding.FragmentCameraBinding
+import com.google.firebase.ml.modeldownloader.CustomModel
+import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
+import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader
+import com.google.firebase.ml.modeldownloader.DownloadType
 import org.tensorflow.lite.Interpreter
-import java.io.FileInputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
-import java.nio.MappedByteBuffer
-import java.nio.channels.FileChannel
 
 class CameraFragment : Fragment() {
     private lateinit var binding: FragmentCameraBinding
@@ -28,7 +28,6 @@ class CameraFragment : Fragment() {
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
     private lateinit var interpreter: Interpreter
     private var isModelLoaded = false
-    private lateinit var currentModelFileName: String
     private var numOfClasses: Int = 0
     private lateinit var nameOfClasses: Array<String>
 
@@ -98,7 +97,7 @@ class CameraFragment : Fragment() {
             nameOfClasses[2] = "Apple Cedar rust"
             nameOfClasses[3] = "Apple Healthy"
 
-            loadModel("apple_model.tflite")
+            loadModel("apple_model")
             launchCamera()
         }
 
@@ -113,7 +112,7 @@ class CameraFragment : Fragment() {
             nameOfClasses[5] = "Banana Moko Disease"
             nameOfClasses[6] = "Banana Yellow Sigatoka Disease "
 
-            loadModel("banana_model.tflite")
+            loadModel("banana_model")
             launchCamera()
         }
 
@@ -123,7 +122,7 @@ class CameraFragment : Fragment() {
             nameOfClasses[0] = "Cherry Powdery Mildew"
             nameOfClasses[1] = "Cherry Healthy"
 
-            loadModel("cherry_model.tflite")
+            loadModel("cherry_model")
             launchCamera()
         }
 
@@ -135,7 +134,7 @@ class CameraFragment : Fragment() {
             nameOfClasses[2] = "Corn Nothern Leaf Blight"
             nameOfClasses[3] = "Corn Healthy"
 
-            loadModel("corn_model.tflite")
+            loadModel("corn_model")
             launchCamera()
         }
 
@@ -147,7 +146,7 @@ class CameraFragment : Fragment() {
             nameOfClasses[2] = "Grape Leaf Blight (Isariopsis Leaf Spot)"
             nameOfClasses[3] = "Grape Healthy"
 
-            loadModel("grape_model.tflite")
+            loadModel("grape_model")
             launchCamera()
         }
 
@@ -165,7 +164,7 @@ class CameraFragment : Fragment() {
             nameOfClasses[8] = "Tomato Mosaic Virus"
             nameOfClasses[9] = "Tomato Healthy"
 
-            loadModel("tomatoes_model.tflite")
+            loadModel("tomato_model")
             launchCamera()
         }
 
@@ -220,20 +219,24 @@ class CameraFragment : Fragment() {
     }
 
     private fun loadModel(modelFileName: String) {
-        currentModelFileName = modelFileName
-        // Load the model file
-        val modelBuffer = loadModelFile(requireContext().assets, modelFileName)
-        interpreter = Interpreter(modelBuffer)
-        isModelLoaded = true
-    }
+        val conditions = CustomModelDownloadConditions.Builder()
+            .requireWifi()  // Also possible: .requireCharging() and .requireDeviceIdle()
+            .build()
+        FirebaseModelDownloader.getInstance()
+            .getModel(modelFileName, DownloadType.LOCAL_MODEL_UPDATE_IN_BACKGROUND,
+                conditions)
+            .addOnSuccessListener { model: CustomModel? ->
+                // Download complete. Depending on your app, you could enable the ML
+                // feature, or switch from the local model to the remote model, etc.
 
-    private fun loadModelFile(assetManager: AssetManager, filename: String): MappedByteBuffer {
-        val fileDescriptor = assetManager.openFd(filename)
-        val inputStream = FileInputStream(fileDescriptor.fileDescriptor)
-        val fileChannel = inputStream.channel
-        val startOffset = fileDescriptor.startOffset
-        val declaredLength = fileDescriptor.declaredLength
-        return fileChannel.map(FileChannel.MapMode.READ_ONLY, startOffset, declaredLength)
+                // The CustomModel object contains the local path of the model file,
+                // which you can use to instantiate a TensorFlow Lite interpreter.
+                val modelFile = model?.file
+                if (modelFile != null) {
+                    interpreter = Interpreter(modelFile)
+                    isModelLoaded = true
+                }
+            }
     }
 
     private fun processImageWithModel(bitmap: Bitmap) {
@@ -276,3 +279,15 @@ class CameraFragment : Fragment() {
         return byteBuffer
     }
 }
+
+
+
+//val conditions = CustomModelDownloadConditions.Builder()
+//    .requireWifi()
+//    .build()
+//FirebaseModelDownloader.getInstance()
+//.getModel("apple_firebase", DownloadType.LOCAL_MODEL, conditions)
+//.addOnCompleteListener {
+//    // Download complete. Depending on your app, you could enable the ML
+//    // feature, or switch from the local model to the remote model, etc.
+//}

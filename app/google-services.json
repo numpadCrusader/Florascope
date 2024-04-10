@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "787853550488",
+    "project_id": "florascope-69f98",
+    "storage_bucket": "florascope-69f98.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:787853550488:android:aff62a3c5aa01e17b841ed",
+        "android_client_info": {
+          "package_name": "com.example.florascope"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDihcpgmh-ZWtqkjhyqHIsfpWAmVMcszEc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
