@@ -6,57 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".SettingsFragment">
 
-<!--    Notification Block-->
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/notificationBlock"
-        android:layout_width="match_parent"
-        android:layout_height="48dp"
-        android:orientation="horizontal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp">
-
-        <TextView
-            android:id="@+id/appNotificationText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="5dp"
-            android:gravity="center_vertical"
-            android:text="@string/notifications"
-            android:textColor="@color/main_text"
-            android:textSize="18sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <androidx.appcompat.widget.SwitchCompat
-            android:id="@+id/notificationSwitch"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:trackTint="@drawable/switch_track_selector"
-            app:thumbTint="@drawable/switch_thumb_selector"/>
-<!--            android:thumb="@drawable/thumb"-->
-<!--            app:track="@drawable/track"-->
-
-    </androidx.constraintlayout.widget.ConstraintLayout>
-
-<!--    Separator-->
-    <View
-        android:id="@+id/separator"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_width="match_parent"
-        android:layout_marginTop="8dp"
-        android:layout_height="1dp"
-        android:background="@color/separator"
-        app:layout_constraintTop_toBottomOf="@id/notificationBlock"/>
-
 <!--    Dark Mode Block-->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/themeBlock"
@@ -65,7 +14,7 @@
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/separator"
+        app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp">
