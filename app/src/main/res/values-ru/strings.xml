@@ -11,10 +11,14 @@
 
     <string name="home_screen_title">Дом</string>
     <string name="gallery_screen_title">Галерея</string>
-    <string name="camera_screen_title">Настройки Камеры</string>
+    <string name="camera_screen_title">Настройки камеры</string>
     <string name="settings_screen_title">Настройки</string>
+    <string name="disease_screen_title">О болезни</string>
 
     <string name="send_button_text">Отправить</string>
     <string name="email">Почта</string>
     <string name="feedback">Отзыв</string>
+
+    <string name="symptoms">Симптомы</string>
+    <string name="treatment">Лечение</string>
 </resources>

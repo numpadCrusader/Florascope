@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".DiseaseFragment">
+
+    <TextView
+        android:id="@+id/disease_title"
+        android:layout_width="350dp"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:textColor="@color/main_text"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/symptoms_title"
+        android:layout_width="350dp"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:text="@string/symptoms"
+        android:textColor="@color/main_text"
+        android:layout_marginTop="30dp"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/disease_title"
+        app:layout_constraintEnd_toEndOf="@+id/disease_title"
+        app:layout_constraintStart_toStartOf="@+id/disease_title" />
+
+    <TextView
+        android:id="@+id/symptoms_text"
+        android:layout_width="350dp"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/main_text"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/symptoms_title"
+        app:layout_constraintStart_toStartOf="@+id/symptoms_title"
+        app:layout_constraintTop_toBottomOf="@+id/symptoms_title" />
+
+    <TextView
+        android:id="@+id/prevention_title"
+        android:layout_width="350dp"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:text="@string/treatment"
+        android:textColor="@color/main_text"
+        android:layout_marginTop="30dp"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toBottomOf="@id/symptoms_text"
+        app:layout_constraintEnd_toEndOf="@+id/symptoms_text"
+        app:layout_constraintStart_toStartOf="@+id/symptoms_text" />
+
+    <TextView
+        android:id="@+id/prevention_text"
+        android:layout_width="350dp"
+        android:textAlignment="center"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/main_text"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/prevention_title"
+        app:layout_constraintStart_toStartOf="@+id/prevention_title"
+        app:layout_constraintTop_toBottomOf="@+id/prevention_title" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

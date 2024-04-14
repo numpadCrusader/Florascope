@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
 import com.example.florascope.databinding.FragmentCameraBinding
 import com.google.firebase.ml.modeldownloader.CustomModel
 import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
@@ -26,10 +27,12 @@ class CameraFragment : Fragment() {
     private lateinit var binding: FragmentCameraBinding
     private lateinit var takePicturePreviewLauncher: ActivityResultLauncher<Void?>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
+
     private lateinit var interpreter: Interpreter
     private var isModelLoaded = false
     private var numOfClasses: Int = 0
     private lateinit var nameOfClasses: Array<String>
+    private lateinit var modelName: String
 
     companion object {
         private const val TAG = "CameraFragment"
@@ -43,8 +46,6 @@ class CameraFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
                 // This is where you receive the result (bitmap)
                 if (bitmap != null) {
-                    binding.clickImage.setImageBitmap(bitmap)
-
                     Log.d(
                         TAG,
                         "Bitmap received from camera: width=${bitmap.width}, height=${bitmap.height}"
@@ -92,11 +93,12 @@ class CameraFragment : Fragment() {
         binding.b1.setOnClickListener {
             numOfClasses = 4
             nameOfClasses = Array(4) { "" }
-            nameOfClasses[0] = "Apple Scab"
-            nameOfClasses[1] = "Apple Black rot"
-            nameOfClasses[2] = "Apple Cedar rust"
-            nameOfClasses[3] = "Apple Healthy"
+            nameOfClasses[0] = "Apple Healthy"
+            nameOfClasses[1] = "Apple Scab"
+            nameOfClasses[2] = "Apple Black rot"
+            nameOfClasses[3] = "Apple Cedar rust"
 
+            modelName = "apple"
             loadModel("apple_model")
             launchCamera()
         }
@@ -112,6 +114,7 @@ class CameraFragment : Fragment() {
             nameOfClasses[5] = "Banana Moko Disease"
             nameOfClasses[6] = "Banana Yellow Sigatoka Disease "
 
+            modelName = "banana"
             loadModel("banana_model")
             launchCamera()
         }
@@ -119,9 +122,10 @@ class CameraFragment : Fragment() {
         binding.b3.setOnClickListener {
             numOfClasses = 1
             nameOfClasses = Array(2) { "" }
-            nameOfClasses[0] = "Cherry Powdery Mildew"
-            nameOfClasses[1] = "Cherry Healthy"
+            nameOfClasses[0] = "Cherry Healthy"
+            nameOfClasses[1] = "Cherry Powdery Mildew"
 
+            modelName = "cherry"
             loadModel("cherry_model")
             launchCamera()
         }
@@ -129,11 +133,12 @@ class CameraFragment : Fragment() {
         binding.b4.setOnClickListener {
             this.numOfClasses = 4
             nameOfClasses = Array(4) { "" }
-            nameOfClasses[0] = "Corn Cercospora leaf spot & Gray leaf spot"
-            nameOfClasses[1] = "Corn Common Rust"
-            nameOfClasses[2] = "Corn Nothern Leaf Blight"
-            nameOfClasses[3] = "Corn Healthy"
+            nameOfClasses[0] = "Corn Healthy"
+            nameOfClasses[1] = "Corn Cercospora leaf spot & Gray leaf spot"
+            nameOfClasses[2] = "Corn Common Rust"
+            nameOfClasses[3] = "Corn Nothern Leaf Blight"
 
+            modelName = "corn"
             loadModel("corn_model")
             launchCamera()
         }
@@ -141,11 +146,12 @@ class CameraFragment : Fragment() {
         binding.b5.setOnClickListener {
             this.numOfClasses = 4
             nameOfClasses = Array(4) { "" }
-            nameOfClasses[0] = "Grape Black Rot"
-            nameOfClasses[1] = "Grape Esca (Black Measles)"
-            nameOfClasses[2] = "Grape Leaf Blight (Isariopsis Leaf Spot)"
-            nameOfClasses[3] = "Grape Healthy"
+            nameOfClasses[0] = "Grape Healthy"
+            nameOfClasses[1] = "Grape Black Rot"
+            nameOfClasses[2] = "Grape Esca (Black Measles)"
+            nameOfClasses[3] = "Grape Leaf Blight (Isariopsis Leaf Spot)"
 
+            modelName = "grape"
             loadModel("grape_model")
             launchCamera()
         }
@@ -153,17 +159,18 @@ class CameraFragment : Fragment() {
         binding.b6.setOnClickListener {
             this.numOfClasses = 10
             nameOfClasses = Array(10) { "" }
-            nameOfClasses[0] = "Tomato Bacterial Spot"
-            nameOfClasses[1] = "Tomato Early Blight"
-            nameOfClasses[2] = "Tomato Late Blight"
-            nameOfClasses[3] = "Tomato Leaf Mold"
-            nameOfClasses[4] = "Tomato Septoria Leaf Spot"
-            nameOfClasses[5] = "Tomato Spider mites || Two spotted spider mite"
-            nameOfClasses[6] = "Tomato Target Spot"
-            nameOfClasses[7] = "Tomato Yellow Leaf Curl Virus"
-            nameOfClasses[8] = "Tomato Mosaic Virus"
-            nameOfClasses[9] = "Tomato Healthy"
+            nameOfClasses[0] = "Tomato Healthy"
+            nameOfClasses[1] = "Tomato Bacterial Spot"
+            nameOfClasses[2] = "Tomato Early Blight"
+            nameOfClasses[3] = "Tomato Late Blight"
+            nameOfClasses[4] = "Tomato Leaf Mold"
+            nameOfClasses[5] = "Tomato Septoria Leaf Spot"
+            nameOfClasses[6] = "Tomato Spider mites || Two spotted spider mite"
+            nameOfClasses[7] = "Tomato Target Spot"
+            nameOfClasses[8] = "Tomato Yellow Leaf Curl Virus"
+            nameOfClasses[9] = "Tomato Mosaic Virus"
 
+            modelName = "tomato"
             loadModel("tomato_model")
             launchCamera()
         }
@@ -223,8 +230,10 @@ class CameraFragment : Fragment() {
             .requireWifi()  // Also possible: .requireCharging() and .requireDeviceIdle()
             .build()
         FirebaseModelDownloader.getInstance()
-            .getModel(modelFileName, DownloadType.LOCAL_MODEL_UPDATE_IN_BACKGROUND,
-                conditions)
+            .getModel(
+                modelFileName, DownloadType.LOCAL_MODEL_UPDATE_IN_BACKGROUND,
+                conditions
+            )
             .addOnSuccessListener { model: CustomModel? ->
                 // Download complete. Depending on your app, you could enable the ML
                 // feature, or switch from the local model to the remote model, etc.
@@ -252,8 +261,24 @@ class CameraFragment : Fragment() {
             Log.d(TAG, "Model inference completed")
 
             // Process the output to get the predicted class
-            val predictedClass = nameOfClasses[getPredictedClass(output)]
-            Log.d(TAG, "Predicted class: $predictedClass")
+            val predictedClassNumber = getPredictedClass(output)
+            Log.d(TAG, "Predicted class number: $predictedClassNumber")
+
+            val predictedClassName = nameOfClasses[predictedClassNumber]
+            Log.d(TAG, "Predicted class name: $predictedClassName")
+
+            if (predictedClassNumber != 0) {
+                //Pass model reply to another fragment
+                val bundle = Bundle().apply {
+                    putString("modelName", modelName)
+                    putString("diseaseIndex", (predictedClassNumber - 1).toString())
+                }
+                view?.findNavController()
+                    ?.navigate(R.id.action_cameraFragment_to_diseaseFragment, bundle)
+            } else {
+                Toast.makeText(requireContext(), "Leaves seem to be healthy", Toast.LENGTH_LONG)
+                    .show()
+            }
 
         } catch (e: Exception) {
             Log.e(TAG, "Error processing image with model: ${e.message}", e)

@@ -45,7 +45,8 @@ class MainActivity : AppCompatActivity() {
         val fragmentsWithHiddenBottomNav = listOf(
             R.id.settingsFragment,
             R.id.cameraFragment,
-            R.id.feedbackFragment
+            R.id.feedbackFragment,
+            R.id.diseaseFragment
         )
 
         // Check if the current destination should hide the BottomNavigationView
@@ -85,6 +86,11 @@ class MainActivity : AppCompatActivity() {
 
             R.id.feedbackFragment -> {
                 actionBar?.title = getString(R.string.send_feedback)
+                actionBar?.setDisplayHomeAsUpEnabled(true)
+            }
+
+            R.id.diseaseFragment -> {
+                actionBar?.title = getString(R.string.disease_screen_title)
                 actionBar?.setDisplayHomeAsUpEnabled(true)
             }
         }
