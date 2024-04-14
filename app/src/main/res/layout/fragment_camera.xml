@@ -11,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="70dp"
         android:columnCount="2"
         android:useDefaultMargins="true"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +23,7 @@
             android:width="120dp"
             android:height="100dp"
             android:backgroundTint="@color/main_green"
-            android:text="Apples"
+            android:text="@string/apples"
             android:textColor="@color/light_gray" />
 
         <Button
@@ -31,7 +31,7 @@
             android:width="120dp"
             android:height="100dp"
             android:backgroundTint="@color/main_green"
-            android:text="Subject 1"
+            android:text="@string/banana"
             android:textColor="@color/light_gray" />
 
         <Button
@@ -39,7 +39,7 @@
             android:width="120dp"
             android:height="100dp"
             android:backgroundTint="@color/main_green"
-            android:text="Subject 2"
+            android:text="@string/cherry"
             android:textColor="@color/light_gray" />
 
         <Button
@@ -47,7 +47,7 @@
             android:width="120dp"
             android:height="100dp"
             android:backgroundTint="@color/main_green"
-            android:text="Subject 3"
+            android:text="@string/corn"
             android:textColor="@color/light_gray" />
 
         <Button
@@ -55,7 +55,7 @@
             android:width="120dp"
             android:height="100dp"
             android:backgroundTint="@color/main_green"
-            android:text="Subject 4"
+            android:text="@string/grape"
             android:textColor="@color/light_gray" />
 
         <Button
@@ -63,8 +63,9 @@
             android:width="120dp"
             android:height="100dp"
             android:backgroundTint="@color/main_green"
-            android:text="Subject 5"
+            android:text="@string/tomato"
             android:textColor="@color/light_gray" />
+
     </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

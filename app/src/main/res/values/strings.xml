@@ -18,6 +18,17 @@
     <string name="email">Email</string>
     <string name="feedback">Feedback</string>
 
+<!--    Disease Fragment-->
     <string name="symptoms">Symptoms</string>
     <string name="treatment">Treatment</string>
+
+    <string name="apples">Apple</string>
+    <string name="banana">Banana</string>
+    <string name="cherry">Cherry</string>
+    <string name="corn">Corn</string>
+    <string name="grape">Grape</string>
+    <string name="tomato">Tomato</string>
+    <string name="peach">Peach</string>
+    <string name="potato">Potato</string>
+    <string name="pepper">Pepper</string>
 </resources>

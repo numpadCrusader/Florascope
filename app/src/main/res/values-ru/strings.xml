@@ -19,6 +19,17 @@
     <string name="email">Почта</string>
     <string name="feedback">Отзыв</string>
 
+    <!--    Disease Fragment-->
     <string name="symptoms">Симптомы</string>
     <string name="treatment">Лечение</string>
+
+    <string name="apples">Яблоко</string>
+    <string name="banana">Банан</string>
+    <string name="cherry">Вишня</string>
+    <string name="corn">Кукуруза</string>
+    <string name="grape">Виноград</string>
+    <string name="tomato">Помидор</string>
+    <string name="peach">Персик</string>
+    <string name="potato">Картошка</string>
+    <string name="pepper">Перец</string>
 </resources>
