@@ -4,17 +4,20 @@
     <string name="camera_placeholder">Место для экрана Камеры</string>
     <string name="gallery_placeholder">Место для экрана Галерея</string>
 
+    <!--    Settings Fragment-->
     <string name="notifications">Уведомления</string>
     <string name="dark_mode">Тёмная тема</string>
     <string name="language">Язык</string>
     <string name="send_feedback">Обратная связь</string>
 
+    <!--    Top Action Bar-->
     <string name="home_screen_title">Дом</string>
     <string name="gallery_screen_title">Галерея</string>
     <string name="camera_screen_title">Настройки камеры</string>
     <string name="settings_screen_title">Настройки</string>
     <string name="disease_screen_title">О болезни</string>
 
+    <!--    Feedback Fragment-->
     <string name="send_button_text">Отправить</string>
     <string name="email">Почта</string>
     <string name="feedback">Отзыв</string>
@@ -23,6 +26,7 @@
     <string name="symptoms">Симптомы</string>
     <string name="treatment">Лечение</string>
 
+    <!--    Camera Settings-->
     <string name="apples">Яблоко</string>
     <string name="banana">Банан</string>
     <string name="cherry">Вишня</string>
@@ -32,4 +36,7 @@
     <string name="peach">Персик</string>
     <string name="potato">Картошка</string>
     <string name="pepper">Перец</string>
+
+    <!--    Some Text-->
+    <string name="longTextPlaceHolder">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</string>
 </resources>

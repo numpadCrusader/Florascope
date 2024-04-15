@@ -35,8 +35,7 @@ class DiseaseFragment : Fragment() {
         binding = FragmentDiseaseBinding.inflate(inflater)
 
         // Initialize the database reference
-        databaseReference =
-            FirebaseDatabase.getInstance("https://florascope-69f98-default-rtdb.europe-west1.firebasedatabase.app/").reference
+        databaseReference = FirebaseDatabase.getInstance().reference
 
         // Assuming you have a method to fetch the data
         fetchData()
@@ -68,6 +67,12 @@ class DiseaseFragment : Fragment() {
                     binding.diseaseTitle.text = title
                     binding.symptomsText.text = symptoms
                     binding.preventionText.text = prevention
+
+                    binding.diseaseTitle.stopLoading()
+                    binding.symptomsTitle.stopLoading()
+                    binding.symptomsText.stopLoading()
+                    binding.preventionTitle.stopLoading()
+                    binding.preventionText.stopLoading()
                 } else {
                     Toast.makeText(requireContext(), "No data found", Toast.LENGTH_LONG).show()
                     view?.findNavController()?.navigate(R.id.action_diseaseFragment_to_cameraFragment)
