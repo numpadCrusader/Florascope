@@ -4,8 +4,8 @@
         android:icon="@drawable/home_svgrepo_com"
         android:id="@+id/homeFragment"
         />
-    <item android:title="@string/gallery_screen_title"
-        android:icon="@drawable/album_svgrepo_com"
-        android:id="@+id/galleryFragment"
+    <item android:title="@string/settings_screen_title"
+        android:icon="@drawable/settings_svgrepo_com"
+        android:id="@+id/settingsFragment"
         />
 </menu>

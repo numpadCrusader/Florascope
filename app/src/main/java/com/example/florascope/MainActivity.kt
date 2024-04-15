@@ -43,7 +43,6 @@ class MainActivity : AppCompatActivity() {
     private fun updateBottomNavVisibility(destination: NavDestination) {
         // Identify fragments where you want to hide the BottomNavigationView
         val fragmentsWithHiddenBottomNav = listOf(
-            R.id.settingsFragment,
             R.id.cameraFragment,
             R.id.feedbackFragment,
             R.id.diseaseFragment
@@ -66,7 +65,7 @@ class MainActivity : AppCompatActivity() {
         when (destination.id) {
             R.id.settingsFragment -> {
                 actionBar?.title = getString(R.string.settings_screen_title)
-                actionBar?.setDisplayHomeAsUpEnabled(true)
+                actionBar?.setDisplayHomeAsUpEnabled(false)
             }
 
             R.id.cameraFragment -> {
@@ -76,11 +75,6 @@ class MainActivity : AppCompatActivity() {
 
             R.id.homeFragment -> {
                 actionBar?.title = getString(R.string.home_screen_title)
-                actionBar?.setDisplayHomeAsUpEnabled(false)
-            }
-
-            R.id.galleryFragment -> {
-                actionBar?.title = getString(R.string.gallery_screen_title)
                 actionBar?.setDisplayHomeAsUpEnabled(false)
             }
 

@@ -7,20 +7,6 @@
     tools:context=".HomeFragment">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/settingsFAB"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:contentDescription="Settings"
-        android:backgroundTint="@color/main_green"
-        android:src="@drawable/settings_svgrepo_com"
-        app:fabCustomSize="50dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:tint="@android:color/white" />
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/cameraFAB"
         android:layout_width="50dp"
         android:layout_height="50dp"

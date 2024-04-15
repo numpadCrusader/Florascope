@@ -17,10 +17,6 @@ class HomeFragment : Fragment() {
     ): View {
         binding = FragmentHomeBinding.inflate(inflater)
 
-        binding.settingsFAB.setOnClickListener {
-            view?.findNavController()?.navigate(R.id.action_homeFragment_to_settingsFragment)
-        }
-
         binding.cameraFAB.setOnClickListener {
             view?.findNavController()?.navigate(R.id.action_homeFragment_to_cameraFragment)
         }

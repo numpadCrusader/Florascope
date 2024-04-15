@@ -23,18 +23,6 @@
             app:destination="@id/feedbackFragment" />
     </fragment>
     <fragment
-        android:id="@+id/galleryFragment"
-        android:name="com.example.florascope.GalleryFragment"
-        android:label="fragment_gallery"
-        tools:layout="@layout/fragment_gallery" >
-        <action
-            android:id="@+id/action_galleryFragment_to_cameraFragment"
-            app:destination="@id/cameraFragment" />
-        <action
-            android:id="@+id/action_galleryFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
-    </fragment>
-    <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.florascope.HomeFragment"
         android:label="fragment_home"
@@ -42,9 +30,6 @@
         <action
             android:id="@+id/action_homeFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
-        <action
-            android:id="@+id/action_homeFragment_to_settingsFragment"
-            app:destination="@id/settingsFragment" />
     </fragment>
     <fragment
         android:id="@+id/feedbackFragment"

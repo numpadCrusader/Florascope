@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Florascope</string>
-    <string name="camera_placeholder">Место для экрана Камеры</string>
-    <string name="gallery_placeholder">Место для экрана Галерея</string>
 
     <!--    Settings Fragment-->
-    <string name="notifications">Уведомления</string>
     <string name="dark_mode">Тёмная тема</string>
     <string name="language">Язык</string>
     <string name="send_feedback">Обратная связь</string>
 
-    <!--    Top Action Bar-->
+    <!--    Action Bars-->
     <string name="home_screen_title">Дом</string>
-    <string name="gallery_screen_title">Галерея</string>
     <string name="camera_screen_title">Настройки камеры</string>
     <string name="settings_screen_title">Настройки</string>
     <string name="disease_screen_title">О болезни</string>
