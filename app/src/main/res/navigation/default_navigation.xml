@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_settingsFragment_to_feedbackFragment"
             app:destination="@id/feedbackFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_languageSelectionFragment"
+            app:destination="@id/languageSelectionFragment" />
     </fragment>
     <fragment
         android:id="@+id/homeFragment"
@@ -45,4 +48,9 @@
             android:id="@+id/action_diseaseFragment_to_cameraFragment"
             app:destination="@id/cameraFragment" />
     </fragment>
+    <fragment
+        android:id="@+id/languageSelectionFragment"
+        android:name="com.example.florascope.LanguageSelectionFragment"
+        android:label="fragment_language_selection"
+        tools:layout="@layout/fragment_language_selection" />
 </navigation>

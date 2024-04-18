@@ -24,7 +24,7 @@ class SettingsFragment : Fragment() {
         binding = FragmentSettingsBinding.inflate(inflater)
 
         binding.languageBlock.setOnClickListener {
-            Toast.makeText(context, "Change Language clicked!", Toast.LENGTH_SHORT).show()
+            view?.findNavController()?.navigate(R.id.action_settingsFragment_to_languageSelectionFragment)
         }
 
         binding.feedbackBlock.setOnClickListener {

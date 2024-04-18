@@ -87,6 +87,11 @@ class MainActivity : AppCompatActivity() {
                 actionBar?.title = getString(R.string.disease_screen_title)
                 actionBar?.setDisplayHomeAsUpEnabled(true)
             }
+
+            R.id.languageSelectionFragment -> {
+                actionBar?.title = getString(R.string.language)
+                actionBar?.setDisplayHomeAsUpEnabled(true)
+            }
         }
     }
 
