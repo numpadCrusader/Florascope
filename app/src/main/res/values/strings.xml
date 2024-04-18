@@ -5,6 +5,8 @@
     <string name="dark_mode">Dark Mode</string>
     <string name="language">Language</string>
     <string name="send_feedback">Send Feedback</string>
+    <string name="lang_ru" translatable="false">Русский</string>
+    <string name="lang_en" translatable="false">English</string>
 
     <!--    Action Bars-->
     <string name="home_screen_title">Home</string>
@@ -33,5 +35,5 @@
     <string name="pepper">Pepper</string>
 
     <!--    Some Text-->
-    <string name="longTextPlaceHolder">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</string>
+    <string name="longTextPlaceHolder" translatable="false">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\'s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries,</string>
 </resources>
