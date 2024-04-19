@@ -1,4 +1,4 @@
-package com.example.florascope
+package com.example.florascope.fragments
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -11,6 +11,7 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI.setupWithNavController
+import com.example.florascope.R
 import com.example.florascope.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.example.florascope
+package com.example.florascope.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import com.example.florascope.R
 import com.example.florascope.databinding.FragmentHomeBinding
 
 class HomeFragment : Fragment() {

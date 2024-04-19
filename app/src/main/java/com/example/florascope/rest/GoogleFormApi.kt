@@ -1,4 +1,4 @@
-package com.example.florascope
+package com.example.florascope.rest
 
 import retrofit2.Call
 import retrofit2.http.Field

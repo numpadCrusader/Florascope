@@ -1,4 +1,4 @@
-package com.example.florascope
+package com.example.florascope.fragments
 
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.findNavController
+import com.example.florascope.R
 import com.example.florascope.databinding.FragmentDiseaseBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
