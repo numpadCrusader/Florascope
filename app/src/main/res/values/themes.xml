@@ -21,4 +21,8 @@
         <item name="toolbarStyle">@style/ToolBarStyle</item>
         <item name="homeAsUpIndicator">@drawable/arrow_left_svgrepo_com</item>
     </style>
+
+    <style name="TextHandlersColor">
+        <item name="colorControlActivated">@android:color/holo_orange_dark</item>
+    </style>
 </resources>

@@ -50,14 +50,37 @@ class MainActivity : AppCompatActivity() {
 
     private fun updateActionBarTitle(destination: NavDestination) {
         val actionBar = supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(destination.id != R.id.homeFragment)
+
         when (destination.id) {
-            R.id.settingsFragment -> actionBar?.title = getString(R.string.settings_screen_title)
-            R.id.cameraFragment -> actionBar?.title = getString(R.string.camera_screen_title)
-            R.id.homeFragment -> actionBar?.title = getString(R.string.home_screen_title)
-            R.id.feedbackFragment -> actionBar?.title = getString(R.string.send_feedback)
-            R.id.diseaseFragment -> actionBar?.title = getString(R.string.disease_screen_title)
-            R.id.languageSelectionFragment -> actionBar?.title = getString(R.string.language)
+            R.id.settingsFragment -> {
+                actionBar?.title = getString(R.string.settings_screen_title)
+                actionBar?.setDisplayHomeAsUpEnabled(false)
+            }
+
+            R.id.cameraFragment -> {
+                actionBar?.title = getString(R.string.camera_screen_title)
+                actionBar?.setDisplayHomeAsUpEnabled(true)
+            }
+
+            R.id.homeFragment -> {
+                actionBar?.title = getString(R.string.home_screen_title)
+                actionBar?.setDisplayHomeAsUpEnabled(false)
+            }
+
+            R.id.feedbackFragment -> {
+                actionBar?.title = getString(R.string.send_feedback)
+                actionBar?.setDisplayHomeAsUpEnabled(true)
+            }
+
+            R.id.diseaseFragment -> {
+                actionBar?.title = getString(R.string.disease_screen_title)
+                actionBar?.setDisplayHomeAsUpEnabled(true)
+            }
+
+            R.id.languageSelectionFragment -> {
+                actionBar?.title = getString(R.string.language)
+                actionBar?.setDisplayHomeAsUpEnabled(true)
+            }
         }
     }
 
@@ -67,6 +90,7 @@ class MainActivity : AppCompatActivity() {
                 navController.popBackStack()
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
