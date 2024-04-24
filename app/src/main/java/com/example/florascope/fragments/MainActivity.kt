@@ -2,6 +2,7 @@ package com.example.florascope.fragments
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.MenuItem
 import android.view.View
@@ -13,6 +14,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI.setupWithNavController
 import com.example.florascope.R
 import com.example.florascope.databinding.ActivityMainBinding
+import java.util.Locale
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -25,85 +27,48 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         navController = Navigation.findNavController(this, R.id.myNavHostFragment)
-
         setupWithNavController(binding.bottomNavigationView, navController)
 
-        // Add a destination changed listener to update visibility
         navController.addOnDestinationChangedListener { _, destination, _ ->
             updateBottomNavVisibility(destination)
             updateActionBarTitle(destination)
         }
 
-        // Initialize SharedPreferences
         sharedPreferences = getSharedPreferences("Mode", Context.MODE_PRIVATE)
-
-        // Apply theme based on saved preference
         applyTheme()
     }
 
     private fun updateBottomNavVisibility(destination: NavDestination) {
-        // Identify fragments where you want to hide the BottomNavigationView
         val fragmentsWithHiddenBottomNav = listOf(
             R.id.cameraFragment,
             R.id.feedbackFragment,
             R.id.diseaseFragment
         )
-
-        // Check if the current destination should hide the BottomNavigationView
         val shouldHideBottomNav = fragmentsWithHiddenBottomNav.contains(destination.id)
-
-        // Update visibility accordingly
-        binding.bottomNavigationView.visibility = if (shouldHideBottomNav) {
-            View.GONE
-        } else {
-            View.VISIBLE
-        }
+        binding.bottomNavigationView.visibility = if (shouldHideBottomNav) View.GONE else View.VISIBLE
     }
 
     private fun updateActionBarTitle(destination: NavDestination) {
         val actionBar = supportActionBar
-
+        actionBar?.setDisplayHomeAsUpEnabled(destination.id != R.id.homeFragment)
         when (destination.id) {
-            R.id.settingsFragment -> {
-                actionBar?.title = getString(R.string.settings_screen_title)
-                actionBar?.setDisplayHomeAsUpEnabled(false)
-            }
-
-            R.id.cameraFragment -> {
-                actionBar?.title = getString(R.string.camera_screen_title)
-                actionBar?.setDisplayHomeAsUpEnabled(true)
-            }
-
-            R.id.homeFragment -> {
-                actionBar?.title = getString(R.string.home_screen_title)
-                actionBar?.setDisplayHomeAsUpEnabled(false)
-            }
-
-            R.id.feedbackFragment -> {
-                actionBar?.title = getString(R.string.send_feedback)
-                actionBar?.setDisplayHomeAsUpEnabled(true)
-            }
-
-            R.id.diseaseFragment -> {
-                actionBar?.title = getString(R.string.disease_screen_title)
-                actionBar?.setDisplayHomeAsUpEnabled(true)
-            }
-
-            R.id.languageSelectionFragment -> {
-                actionBar?.title = getString(R.string.language)
-                actionBar?.setDisplayHomeAsUpEnabled(true)
-            }
+            R.id.settingsFragment -> actionBar?.title = getString(R.string.settings_screen_title)
+            R.id.cameraFragment -> actionBar?.title = getString(R.string.camera_screen_title)
+            R.id.homeFragment -> actionBar?.title = getString(R.string.home_screen_title)
+            R.id.feedbackFragment -> actionBar?.title = getString(R.string.send_feedback)
+            R.id.diseaseFragment -> actionBar?.title = getString(R.string.disease_screen_title)
+            R.id.languageSelectionFragment -> actionBar?.title = getString(R.string.language)
         }
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
+        return when (item.itemId) {
             android.R.id.home -> {
                 navController.popBackStack()
-                return true
+                true
             }
+            else -> super.onOptionsItemSelected(item)
         }
-        return super.onOptionsItemSelected(item)
     }
 
     private fun applyTheme() {
@@ -113,5 +78,23 @@ class MainActivity : AppCompatActivity() {
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         }
+    }
+
+    override fun attachBaseContext(newBase: Context) {
+        super.attachBaseContext(updateBaseContextLocale(newBase))
+    }
+
+    private fun updateBaseContextLocale(context: Context): Context {
+        val lang = getPersistedData(context) // Retrieve your saved language
+        val locale = Locale(lang)
+        Locale.setDefault(locale)
+        val config = Configuration()
+        config.setLocale(locale)
+        return context.createConfigurationContext(config)
+    }
+
+    private fun getPersistedData(context: Context): String {
+        val preferences = context.getSharedPreferences("AppSettingsPrefs", Context.MODE_PRIVATE)
+        return preferences.getString("AppLang", Locale.getDefault().language) ?: Locale.getDefault().language
     }
 }

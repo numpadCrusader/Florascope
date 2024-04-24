@@ -1,5 +1,6 @@
 package com.example.florascope.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -55,14 +56,17 @@ class DiseaseFragment : Fragment() {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 // Check if the data exists
                 if (dataSnapshot.exists()) {
-                    if (isAppLanguageEnglish()) {
-                        title = dataSnapshot.child("title/en").getValue(String::class.java).toString()
-                        symptoms = dataSnapshot.child("symptoms/en").getValue(String::class.java).toString()
-                        prevention = dataSnapshot.child("prevention/en").getValue(String::class.java).toString()
-                    } else {
-                        title = dataSnapshot.child("title/ru").getValue(String::class.java).toString()
-                        symptoms = dataSnapshot.child("symptoms/ru").getValue(String::class.java).toString()
-                        prevention = dataSnapshot.child("prevention/ru").getValue(String::class.java).toString()
+                    when (getPersistedLanguage()) {
+                        "en" -> {
+                            title = dataSnapshot.child("title/en").getValue(String::class.java).toString()
+                            symptoms = dataSnapshot.child("symptoms/en").getValue(String::class.java).toString()
+                            prevention = dataSnapshot.child("prevention/en").getValue(String::class.java).toString()
+                        }
+                        "ru" -> {
+                            title = dataSnapshot.child("title/ru").getValue(String::class.java).toString()
+                            symptoms = dataSnapshot.child("symptoms/ru").getValue(String::class.java).toString()
+                            prevention = dataSnapshot.child("prevention/ru").getValue(String::class.java).toString()
+                        }
                     }
 
                     binding.diseaseTitle.text = title
@@ -87,13 +91,8 @@ class DiseaseFragment : Fragment() {
         })
     }
 
-    private fun isAppLanguageEnglish(): Boolean {
-        // Get the current locale of the app
-        val currentLocale = Locale.getDefault()
-
-        Log.d(TAG, "App language: " + currentLocale.language)
-
-        // Check if the language of the app is English
-        return currentLocale.language == "en"
+    private fun getPersistedLanguage(): String {
+        val sharedPref = activity?.getSharedPreferences("AppSettingsPrefs", Context.MODE_PRIVATE)
+        return sharedPref?.getString("AppLang", Locale.getDefault().language) ?: Locale.getDefault().language
     }
 }
