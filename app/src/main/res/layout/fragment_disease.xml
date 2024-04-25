@@ -6,81 +6,124 @@
     android:layout_height="match_parent"
     tools:context=".fragments.DiseaseFragment">
 
-    <aglibs.loading.skeleton.view.SkeletonTextView
-        android:id="@+id/disease_title"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/disease_screen_title"
-        android:textAlignment="center"
-        android:textColor="@color/main_text"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <aglibs.loading.skeleton.view.SkeletonTextView
-        android:id="@+id/symptoms_title"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/symptoms"
-        android:textAlignment="center"
-        android:textColor="@color/main_text"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/disease_title"
-        app:layout_constraintStart_toStartOf="@+id/disease_title"
-        app:layout_constraintTop_toBottomOf="@id/disease_title" />
-
-    <aglibs.loading.skeleton.view.SkeletonTextView
-        android:id="@+id/symptoms_text"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:lineSpacingExtra="4dp"
-        android:text="@string/longTextPlaceHolder"
-        android:textAlignment="center"
-        android:textColor="@color/main_text"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toEndOf="@+id/symptoms_title"
-        app:layout_constraintStart_toStartOf="@+id/symptoms_title"
-        app:layout_constraintTop_toBottomOf="@+id/symptoms_title"
-        app:splitSkeletonTextByLines="true" />
-
-    <aglibs.loading.skeleton.view.SkeletonTextView
-        android:id="@+id/prevention_title"
-        android:layout_width="350dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/treatment"
-        android:textAlignment="center"
-        android:textColor="@color/main_text"
-        android:textSize="26sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="@+id/symptoms_text"
-        app:layout_constraintStart_toStartOf="@+id/symptoms_text"
-        app:layout_constraintTop_toBottomOf="@id/symptoms_text" />
-
     <ScrollView
-        android:layout_width="350dp"
-        android:layout_height="300dp"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="@+id/prevention_title"
-        app:layout_constraintStart_toStartOf="@+id/prevention_title"
-        app:layout_constraintTop_toBottomOf="@+id/prevention_title">
+        android:id="@+id/scrollView2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_percent="0.85"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_percent="0.9">
 
-        <aglibs.loading.skeleton.view.SkeletonTextView
-            android:id="@+id/prevention_text"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="4dp"
-            android:text="@string/longTextPlaceHolder"
-            android:textAlignment="center"
-            android:textColor="@color/main_text"
-            android:textSize="18sp"
-            app:splitSkeletonTextByLines="true" />
+            android:layout_height="wrap_content">
+
+            <aglibs.loading.skeleton.view.SkeletonTextView
+                android:id="@+id/disease_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/disease_screen_title"
+                android:textAlignment="center"
+                android:textColor="@color/main_text"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <aglibs.loading.skeleton.view.SkeletonTextView
+                android:id="@+id/symptoms_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/symptoms"
+                android:textAlignment="center"
+                android:textColor="@color/main_text"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/disease_title"
+                app:layout_constraintStart_toStartOf="@+id/disease_title"
+                app:layout_constraintTop_toBottomOf="@id/disease_title" />
+
+            <aglibs.loading.skeleton.view.SkeletonTextView
+                android:id="@+id/symptoms_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/longTextPlaceHolder"
+                android:textAlignment="center"
+                android:textColor="@color/main_text"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/symptoms_title"
+                app:layout_constraintStart_toStartOf="@+id/symptoms_title"
+                app:layout_constraintTop_toBottomOf="@+id/symptoms_title"
+                app:splitSkeletonTextByLines="true" />
+
+            <aglibs.loading.skeleton.view.SkeletonTextView
+                android:id="@+id/prevention_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:text="@string/treatment"
+                android:textAlignment="center"
+                android:textColor="@color/main_text"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="@+id/symptoms_text"
+                app:layout_constraintStart_toStartOf="@+id/symptoms_text"
+                app:layout_constraintTop_toBottomOf="@id/symptoms_text" />
+
+            <aglibs.loading.skeleton.view.SkeletonTextView
+                android:id="@+id/prevention_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:lineSpacingExtra="4dp"
+                android:text="@string/longTextPlaceHolder"
+                android:textAlignment="center"
+                android:textColor="@color/main_text"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="@+id/prevention_title"
+                app:layout_constraintStart_toStartOf="@+id/prevention_title"
+                app:layout_constraintTop_toBottomOf="@+id/prevention_title"
+                app:splitSkeletonTextByLines="true" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </ScrollView>
+
+    <Button
+        android:id="@+id/saveResultButton"
+        android:layout_width="160dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/button_style"
+        android:text="Save"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:backgroundTint="@color/main_green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/scrollView2"/>
+
+    <Button
+        android:id="@+id/discardResultButton"
+        android:layout_width="160dp"
+        android:layout_height="48dp"
+        android:layout_marginBottom="40dp"
+        android:background="@drawable/button_style"
+        android:text="Discard"
+        android:textAllCaps="false"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:backgroundTint="@android:color/holo_red_dark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/scrollView2"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
