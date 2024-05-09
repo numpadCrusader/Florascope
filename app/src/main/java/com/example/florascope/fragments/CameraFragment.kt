@@ -16,11 +16,16 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.florascope.R
 import com.example.florascope.databinding.FragmentCameraBinding
+import com.google.firebase.ktx.Firebase
 import com.google.firebase.ml.modeldownloader.CustomModel
 import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
 import com.google.firebase.ml.modeldownloader.FirebaseModelDownloader
 import com.google.firebase.ml.modeldownloader.DownloadType
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
+import com.google.firebase.storage.ktx.storage
 import org.tensorflow.lite.Interpreter
+import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 
@@ -39,6 +44,10 @@ class CameraFragment : Fragment() {
         private const val TAG = "CameraFragment"
     }
 
+    // Firebase
+    private lateinit var storage: FirebaseStorage
+    private lateinit var storageRef: StorageReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -51,6 +60,9 @@ class CameraFragment : Fragment() {
                         TAG,
                         "Bitmap received from camera: width=${bitmap.width}, height=${bitmap.height}"
                     )
+
+                    // Upload the bitmap to Firebase Storage
+//                    uploadImageToFirebase(bitmap)
 
                     if (isModelLoaded) {
                         processImageWithModel(bitmap)
@@ -83,6 +95,24 @@ class CameraFragment : Fragment() {
                     ).show()
                 }
             }
+    }
+
+    private fun uploadImageToFirebase(bitmap: Bitmap) {
+        val baos = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        // Create a reference to 'images/image.jpg'
+        val imageRef = storageRef.child("images/image.jpg")
+
+        // Upload ByteArray to Firebase Storage
+        val uploadTask = imageRef.putBytes(data)
+        uploadTask.addOnSuccessListener {
+            Toast.makeText(requireContext(), "Image uploaded successfully", Toast.LENGTH_SHORT)
+                .show()
+        }.addOnFailureListener {
+            Toast.makeText(requireContext(), "Failed to upload image", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onCreateView(
@@ -145,6 +175,7 @@ class CameraFragment : Fragment() {
         }
 
         binding.b5.setOnClickListener {
+            //Grape Black Rot leaf - 2ой с нуля
             this.numOfClasses = 4
             nameOfClasses = Array(4) { "" }
             nameOfClasses[0] = "Grape Healthy"
@@ -174,6 +205,14 @@ class CameraFragment : Fragment() {
             modelName = "tomato"
             loadModel("tomato_model")
             launchCamera()
+        }
+
+        binding.buttonTest.setOnClickListener {
+            // Initialize Firebase
+//            storage = Firebase.storage
+//            storageRef = storage.reference
+//
+//            launchCamera()
         }
 
         return binding.root

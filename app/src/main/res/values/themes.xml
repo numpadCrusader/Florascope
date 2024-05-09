@@ -22,6 +22,15 @@
         <item name="homeAsUpIndicator">@drawable/arrow_left_svgrepo_com</item>
     </style>
 
+    <style name="SplashScreen" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <!-- Screen background color. -->
+        <item name="android:windowBackground">@color/screen_background</item>
+
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor">@color/actionbar_background</item>
+        <item name="android:windowLightStatusBar">true</item>
+    </style>
+
     <style name="TextHandlersColor">
         <item name="colorControlActivated">@android:color/holo_orange_dark</item>
     </style>
