@@ -35,14 +35,6 @@
             android:textColor="@color/light_gray" />
 
         <Button
-            android:id="@+id/b_3"
-            android:width="120dp"
-            android:height="100dp"
-            android:backgroundTint="@color/main_green"
-            android:text="@string/cherry"
-            android:textColor="@color/light_gray" />
-
-        <Button
             android:id="@+id/b_4"
             android:width="120dp"
             android:height="100dp"
@@ -67,18 +59,5 @@
             android:textColor="@color/light_gray" />
 
     </GridLayout>
-
-    <Button
-        android:id="@+id/buttonTest"
-        android:layout_width="300dp"
-        android:layout_height="120dp"
-        android:width="120dp"
-        android:height="100dp"
-        android:backgroundTint="@color/main_green"
-        android:text="Test"
-        android:textColor="@color/light_gray"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/gridLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

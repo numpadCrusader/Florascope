@@ -44,10 +44,6 @@ class CameraFragment : Fragment() {
         private const val TAG = "CameraFragment"
     }
 
-    // Firebase
-    private lateinit var storage: FirebaseStorage
-    private lateinit var storageRef: StorageReference
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -60,9 +56,6 @@ class CameraFragment : Fragment() {
                         TAG,
                         "Bitmap received from camera: width=${bitmap.width}, height=${bitmap.height}"
                     )
-
-                    // Upload the bitmap to Firebase Storage
-//                    uploadImageToFirebase(bitmap)
 
                     if (isModelLoaded) {
                         processImageWithModel(bitmap)
@@ -97,24 +90,6 @@ class CameraFragment : Fragment() {
             }
     }
 
-    private fun uploadImageToFirebase(bitmap: Bitmap) {
-        val baos = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
-        val data = baos.toByteArray()
-
-        // Create a reference to 'images/image.jpg'
-        val imageRef = storageRef.child("images/image.jpg")
-
-        // Upload ByteArray to Firebase Storage
-        val uploadTask = imageRef.putBytes(data)
-        uploadTask.addOnSuccessListener {
-            Toast.makeText(requireContext(), "Image uploaded successfully", Toast.LENGTH_SHORT)
-                .show()
-        }.addOnFailureListener {
-            Toast.makeText(requireContext(), "Failed to upload image", Toast.LENGTH_SHORT).show()
-        }
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -147,17 +122,6 @@ class CameraFragment : Fragment() {
 
             modelName = "banana"
             loadModel("banana_model")
-            launchCamera()
-        }
-
-        binding.b3.setOnClickListener {
-            numOfClasses = 1
-            nameOfClasses = Array(2) { "" }
-            nameOfClasses[0] = "Cherry Healthy"
-            nameOfClasses[1] = "Cherry Powdery Mildew"
-
-            modelName = "cherry"
-            loadModel("cherry_model")
             launchCamera()
         }
 
@@ -205,14 +169,6 @@ class CameraFragment : Fragment() {
             modelName = "tomato"
             loadModel("tomato_model")
             launchCamera()
-        }
-
-        binding.buttonTest.setOnClickListener {
-            // Initialize Firebase
-//            storage = Firebase.storage
-//            storageRef = storage.reference
-//
-//            launchCamera()
         }
 
         return binding.root
