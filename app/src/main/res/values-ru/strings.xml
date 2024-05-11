@@ -8,7 +8,7 @@
     <string name="send_feedback">Обратная связь</string>
 
     <!--    Action Bars-->
-    <string name="home_screen_title">Дом</string>
+    <string name="home_screen_title">Главная</string>
     <string name="camera_screen_title">Настройки камеры</string>
     <string name="settings_screen_title">Настройки</string>
     <string name="disease_screen_title">О болезни</string>
@@ -32,4 +32,5 @@
     <string name="peach">Персик</string>
     <string name="potato">Картошка</string>
     <string name="pepper">Перец</string>
+    <string name="watermelon">Арбуз</string>
 </resources>

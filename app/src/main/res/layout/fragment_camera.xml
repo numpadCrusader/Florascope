@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="70dp"
-        android:columnCount="2"
+        android:columnCount="1"
         android:useDefaultMargins="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,7 +20,7 @@
 
         <Button
             android:id="@+id/b_1"
-            android:width="120dp"
+            android:width="240dp"
             android:height="100dp"
             android:backgroundTint="@color/main_green"
             android:text="@string/apples"
@@ -28,34 +28,10 @@
 
         <Button
             android:id="@+id/b_2"
-            android:width="120dp"
-            android:height="100dp"
-            android:backgroundTint="@color/main_green"
-            android:text="@string/banana"
-            android:textColor="@color/light_gray" />
-
-        <Button
-            android:id="@+id/b_4"
-            android:width="120dp"
-            android:height="100dp"
-            android:backgroundTint="@color/main_green"
-            android:text="@string/corn"
-            android:textColor="@color/light_gray" />
-
-        <Button
-            android:id="@+id/b_5"
-            android:width="120dp"
+            android:width="240dp"
             android:height="100dp"
             android:backgroundTint="@color/main_green"
             android:text="@string/grape"
-            android:textColor="@color/light_gray" />
-
-        <Button
-            android:id="@+id/b_6"
-            android:width="120dp"
-            android:height="100dp"
-            android:backgroundTint="@color/main_green"
-            android:text="@string/tomato"
             android:textColor="@color/light_gray" />
 
     </GridLayout>

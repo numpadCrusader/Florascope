@@ -3,6 +3,7 @@ package com.example.florascope.fragments
 import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
+import android.graphics.ColorSpace.Model
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +16,11 @@ import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
 import com.example.florascope.R
+import com.example.florascope.backend.AnalysisResponse
+import com.example.florascope.backend.AnalyzeRequest
+import com.example.florascope.backend.ModelApi
 import com.example.florascope.databinding.FragmentCameraBinding
+import com.example.florascope.rest.GoogleFormApi
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.ml.modeldownloader.CustomModel
 import com.google.firebase.ml.modeldownloader.CustomModelDownloadConditions
@@ -24,24 +29,54 @@ import com.google.firebase.ml.modeldownloader.DownloadType
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.google.firebase.storage.ktx.storage
+import okhttp3.OkHttpClient
+import org.json.JSONObject
 import org.tensorflow.lite.Interpreter
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
+import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 import java.io.ByteArrayOutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
+import java.util.concurrent.TimeUnit
 
 class CameraFragment : Fragment() {
     private lateinit var binding: FragmentCameraBinding
     private lateinit var takePicturePreviewLauncher: ActivityResultLauncher<Void?>
     private lateinit var requestPermissionLauncher: ActivityResultLauncher<String>
 
-    private lateinit var interpreter: Interpreter
-    private var isModelLoaded = false
+    private lateinit var modelName: String
     private var numOfClasses: Int = 0
     private lateinit var nameOfClasses: Array<String>
-    private lateinit var modelName: String
+
+    // Firebase
+    private lateinit var storage: FirebaseStorage
+    private lateinit var storageRef: StorageReference
 
     companion object {
         private const val TAG = "CameraFragment"
+    }
+
+    object RetrofitClient {
+        private const val BASE_URL = "https://florascope1.el.r.appspot.com/"
+
+        val instance: ModelApi by lazy {
+            val okHttpClient = OkHttpClient.Builder()
+                .connectTimeout(9000, TimeUnit.SECONDS) // Increase connect timeout
+                .readTimeout(9000, TimeUnit.SECONDS)    // Increase read timeout
+                .writeTimeout(9000, TimeUnit.SECONDS)   // Increase write timeout
+                .build()
+
+            val retrofit = Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build()
+
+            retrofit.create(ModelApi::class.java)
+        }
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -52,24 +87,14 @@ class CameraFragment : Fragment() {
             registerForActivityResult(ActivityResultContracts.TakePicturePreview()) { bitmap ->
                 // This is where you receive the result (bitmap)
                 if (bitmap != null) {
-                    Log.d(
-                        TAG,
-                        "Bitmap received from camera: width=${bitmap.width}, height=${bitmap.height}"
-                    )
+                    Log.d(TAG, "Bitmap received from camera: width=${bitmap.width}, height=${bitmap.height}")
 
-                    if (isModelLoaded) {
-                        processImageWithModel(bitmap)
-                    } else {
-                        Toast.makeText(requireContext(), "Model is not loaded", Toast.LENGTH_LONG)
-                            .show()
-                    }
+                    // Upload the bitmap to Firebase Storage
+                    uploadImageToFirebase(bitmap)
+
                 } else {
                     Log.e(TAG, "Bitmap received from camera is null")
-                    Toast.makeText(
-                        requireContext(),
-                        "Error: Bitmap received from camera is null",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(requireContext(), "Error: Bitmap received from camera is null", Toast.LENGTH_LONG).show()
                 }
             }
 
@@ -81,11 +106,7 @@ class CameraFragment : Fragment() {
                     takePicturePreviewLauncher.launch(null)
                 } else {
                     // Permission is denied. Handle the error.
-                    Toast.makeText(
-                        requireContext(),
-                        "Camera permission is required to take pictures",
-                        Toast.LENGTH_LONG
-                    ).show()
+                    Toast.makeText(requireContext(), "Camera permission is required to take pictures", Toast.LENGTH_LONG).show()
                 }
             }
     }
@@ -96,91 +117,35 @@ class CameraFragment : Fragment() {
     ): View {
         binding = FragmentCameraBinding.inflate(inflater)
 
+        // Initialize Firebase
+        storage = Firebase.storage
+        storageRef = storage.reference
+
         binding.b1.setOnClickListener {
             numOfClasses = 4
             nameOfClasses = Array(4) { "" }
             nameOfClasses[0] = "Apple Healthy"
-            nameOfClasses[1] = "Apple Scab"
-            nameOfClasses[2] = "Apple Black rot"
-            nameOfClasses[3] = "Apple Cedar rust"
+            nameOfClasses[1] = "Apple Black Rot"
+            nameOfClasses[2] = "Apple Rust"
+            nameOfClasses[3] = "Apple Scab"
 
             modelName = "apple"
-            loadModel("apple_model")
             launchCamera()
         }
 
         binding.b2.setOnClickListener {
-            numOfClasses = 7
-            nameOfClasses = Array(7) { "" }
-            nameOfClasses[0] = "Banana Healthy"
-            nameOfClasses[1] = "Banana Panama Disease"
-            nameOfClasses[2] = "Banana Black Sigatoka Disease"
-            nameOfClasses[3] = "Banana Bract Mosaic Virus Disease"
-            nameOfClasses[4] = "Banana Insect Pest Disease"
-            nameOfClasses[5] = "Banana Moko Disease"
-            nameOfClasses[6] = "Banana Yellow Sigatoka Disease "
-
-            modelName = "banana"
-            loadModel("banana_model")
-            launchCamera()
-        }
-
-        binding.b4.setOnClickListener {
-            this.numOfClasses = 4
+            numOfClasses = 4
             nameOfClasses = Array(4) { "" }
-            nameOfClasses[0] = "Corn Healthy"
-            nameOfClasses[1] = "Corn Cercospora leaf spot & Gray leaf spot"
-            nameOfClasses[2] = "Corn Common Rust"
-            nameOfClasses[3] = "Corn Nothern Leaf Blight"
-
-            modelName = "corn"
-            loadModel("corn_model")
-            launchCamera()
-        }
-
-        binding.b5.setOnClickListener {
-            //Grape Black Rot leaf - 2ой с нуля
-            this.numOfClasses = 4
-            nameOfClasses = Array(4) { "" }
-            nameOfClasses[0] = "Grape Healthy"
-            nameOfClasses[1] = "Grape Black Rot"
-            nameOfClasses[2] = "Grape Esca (Black Measles)"
-            nameOfClasses[3] = "Grape Leaf Blight (Isariopsis Leaf Spot)"
+            nameOfClasses[0] = "Black Rot"
+            nameOfClasses[1] = "Esca (Black Measles)"
+            nameOfClasses[2] = "Leaf blight (Isariopsis Leaf Spot)"
+            nameOfClasses[3] = "Healthy"
 
             modelName = "grape"
-            loadModel("grape_model")
-            launchCamera()
-        }
-
-        binding.b6.setOnClickListener {
-            this.numOfClasses = 10
-            nameOfClasses = Array(10) { "" }
-            nameOfClasses[0] = "Tomato Healthy"
-            nameOfClasses[1] = "Tomato Bacterial Spot"
-            nameOfClasses[2] = "Tomato Early Blight"
-            nameOfClasses[3] = "Tomato Late Blight"
-            nameOfClasses[4] = "Tomato Leaf Mold"
-            nameOfClasses[5] = "Tomato Septoria Leaf Spot"
-            nameOfClasses[6] = "Tomato Spider mites || Two spotted spider mite"
-            nameOfClasses[7] = "Tomato Target Spot"
-            nameOfClasses[8] = "Tomato Yellow Leaf Curl Virus"
-            nameOfClasses[9] = "Tomato Mosaic Virus"
-
-            modelName = "tomato"
-            loadModel("tomato_model")
             launchCamera()
         }
 
         return binding.root
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        try {
-            interpreter.close()
-        } catch (e: Exception) {
-            Log.e(TAG, "Error closing interpreter: ${e.message}", e)
-        }
     }
 
     private fun launchCamera() {
@@ -200,103 +165,80 @@ class CameraFragment : Fragment() {
         }
     }
 
-    private fun getPredictedClass(output: Array<FloatArray>): Int {
-        // If plant's labels are binary
-        if (output[0].size == 1) {
-            return if (output[0][0] > 0.5) {
-                1
-            } else
-                0
-        }
+    private fun uploadImageToFirebase(originalBitmap: Bitmap) {
+        val resizedBitmap = Bitmap.createScaledBitmap(originalBitmap, 600, 600, true)
 
-        // If plant's labels are multilabel
-        var maxIdx = 0
-        var maxVal = output[0][0]
-        for (i in 1 until output[0].size) {
-            if (output[0][i] > maxVal) {
-                maxVal = output[0][i]
-                maxIdx = i
-            }
+        val baos = ByteArrayOutputStream()
+        resizedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        val data = baos.toByteArray()
+
+        val imageRef = storageRef.child("images/image.jpg")
+
+        val uploadTask = imageRef.putBytes(data)
+        uploadTask.addOnSuccessListener {
+            Toast.makeText(requireContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show()
+            sendApiRequest()
+        }.addOnFailureListener {
+            Toast.makeText(requireContext(), "Failed to upload image", Toast.LENGTH_SHORT).show()
         }
-        return maxIdx
     }
 
-    private fun loadModel(modelFileName: String) {
-        val conditions = CustomModelDownloadConditions.Builder()
-            .requireWifi()  // Also possible: .requireCharging() and .requireDeviceIdle()
-            .build()
-        FirebaseModelDownloader.getInstance()
-            .getModel(
-                modelFileName, DownloadType.LOCAL_MODEL_UPDATE_IN_BACKGROUND,
-                conditions
-            )
-            .addOnSuccessListener { model: CustomModel? ->
-                // Download complete. Depending on your app, you could enable the ML
-                // feature, or switch from the local model to the remote model, etc.
+    private fun sendApiRequest() {
+        val request = AnalyzeRequest("image.jpg", modelName + "_model")
+        RetrofitClient.instance.analyzeImage(request)
+            .enqueue(object : retrofit2.Callback<AnalysisResponse> {
+                override fun onResponse(
+                    call: retrofit2.Call<AnalysisResponse>,
+                    response: retrofit2.Response<AnalysisResponse>
+                ) {
+                    if (response.isSuccessful) {
+                        Log.d("APIResponse", "Success: ${response.body()}")
 
-                // The CustomModel object contains the local path of the model file,
-                // which you can use to instantiate a TensorFlow Lite interpreter.
-                val modelFile = model?.file
-                if (modelFile != null) {
-                    interpreter = Interpreter(modelFile)
-                    isModelLoaded = true
+                        val diseaseName = nameOfClasses[findIndexOfLargest(response.body()!!.result)]
+
+                        if(diseaseName.contains("Healthy")){
+                            Toast.makeText(requireContext(), "Leaves seem to be healthy", Toast.LENGTH_SHORT).show()
+                        }
+                        else{
+                            val bundle = Bundle().apply {
+                                putString("modelName", modelName)
+                                putString("diseaseName", diseaseName)
+                            }
+                            view?.findNavController()?.navigate(R.id.action_cameraFragment_to_diseaseFragment, bundle)
+                        }
+                    } else {
+                        Toast.makeText(requireContext(), "Error processing image on server, try again", Toast.LENGTH_SHORT).show()
+                        Log.d("APIResponse", "Error: HTTP ${response.code()} ${response.message()}")
+                        Log.d("APIResponse", "Headers: ${response.headers()}")
+                        Log.d("APIResponse", "Error Body: ${response.errorBody()?.string()}")
+                    }
                 }
-            }
+
+                override fun onFailure(call: retrofit2.Call<AnalysisResponse>, t: Throwable) {
+                    Toast.makeText(requireContext(), "Failure processing image, try again", Toast.LENGTH_SHORT).show()
+                    Log.d("APIResponse", "Failure: ${t.message}")
+                    Log.d("APIResponse", "Exception Type: ${t.javaClass.simpleName}")
+                    Log.e("APIResponse", "Stack Trace: ", t)
+                }
+            })
     }
 
-    private fun processImageWithModel(bitmap: Bitmap) {
+    fun findIndexOfLargest(resultString: String): Int {
         try {
-            // Convert bitmap to a ByteBuffer with the required shape (1, 200, 200, 3)
-            val resizedBitmap = Bitmap.createScaledBitmap(bitmap, 200, 200, true)
-            val byteBuffer = convertBitmapToByteBuffer(resizedBitmap)
-            Log.d(TAG, "Bitmap converted to ByteBuffer")
+            // Remove the double brackets and split by spaces
+            val numbers = resultString
+                .replace("[[", "")
+                .replace("]]", "")
+                .trim()
+                .split("\\s+".toRegex())  // Using regex to handle variable whitespace
+                .map { it.toDouble() }
 
-            // Run inference
-            val output = Array(1) { FloatArray(this.numOfClasses) }
-            interpreter.run(byteBuffer, output)
-            Log.d(TAG, "Model inference completed")
-
-            // Process the output to get the predicted class
-            val predictedClassNumber = getPredictedClass(output)
-            Log.d(TAG, "Predicted class number: $predictedClassNumber")
-
-            val predictedClassName = nameOfClasses[predictedClassNumber]
-            Log.d(TAG, "Predicted class name: $predictedClassName")
-
-            if (predictedClassNumber != 0) {
-                //Pass model reply to another fragment
-                val bundle = Bundle().apply {
-                    putString("modelName", modelName)
-                    putString("diseaseIndex", (predictedClassNumber - 1).toString())
-                }
-                view?.findNavController()
-                    ?.navigate(R.id.action_cameraFragment_to_diseaseFragment, bundle)
-            } else {
-                Toast.makeText(requireContext(), "Leaves seem to be healthy", Toast.LENGTH_LONG)
-                    .show()
-            }
-
+            // Find the largest number and its index
+            val maxNumber = numbers.maxOrNull() ?: throw IllegalArgumentException("List is empty")
+            return numbers.indexOf(maxNumber)
         } catch (e: Exception) {
-            Log.e(TAG, "Error processing image with model: ${e.message}", e)
-            Toast.makeText(requireContext(), "Error processing image with model", Toast.LENGTH_LONG)
-                .show()
+            println("Error parsing response: ${e.message}")
+            throw e  // Re-throw the exception after logging
         }
-    }
-
-    private fun convertBitmapToByteBuffer(bitmap: Bitmap): ByteBuffer {
-        val byteBuffer = ByteBuffer.allocateDirect(1 * 200 * 200 * 3 * 4) // 4 bytes per float
-        byteBuffer.order(ByteOrder.nativeOrder())
-        val intValues = IntArray(200 * 200)
-        bitmap.getPixels(intValues, 0, bitmap.width, 0, 0, bitmap.width, bitmap.height)
-        var pixel = 0
-        for (i in 0 until 200) {
-            for (j in 0 until 200) {
-                val value = intValues[pixel++]
-                byteBuffer.putFloat(((value shr 16) and 0xFF) / 1.0f)
-                byteBuffer.putFloat(((value shr 8) and 0xFF) / 1.0f)
-                byteBuffer.putFloat((value and 0xFF) / 1.0f)
-            }
-        }
-        return byteBuffer
     }
 }

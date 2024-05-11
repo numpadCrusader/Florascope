@@ -47,9 +47,9 @@ class DiseaseFragment : Fragment() {
 
     private fun fetchData() {
         // Assuming you have the reference to the "diseases" node
-        val diseasesReference = databaseReference.child("diseases")
+        val diseasesReference = databaseReference.child("diseasesv2")
             .child(arguments?.getString("modelName").toString())
-            .child(arguments?.getString("diseaseIndex").toString())
+            .child(arguments?.getString("diseaseName").toString())
 
         // Add a listener for fetching data
         diseasesReference.addValueEventListener(object : ValueEventListener {
